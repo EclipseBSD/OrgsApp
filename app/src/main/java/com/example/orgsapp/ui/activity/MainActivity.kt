@@ -10,6 +10,7 @@ import com.example.orgsapp.ui.recyclerview.adapter.ListaProdutosAdapter
 import java.math.BigDecimal
 
 class MainActivity : AppCompatActivity(R.layout.activity_main){
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        val nome = findViewById<TextView>(R.id.nome)

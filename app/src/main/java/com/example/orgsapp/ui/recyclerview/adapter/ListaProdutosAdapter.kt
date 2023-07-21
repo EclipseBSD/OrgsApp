@@ -2,33 +2,33 @@ package com.example.orgsapp.ui.recyclerview.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.orgsapp.R
+import com.example.orgsapp.databinding.ProdutoItemBinding
 import com.example.orgsapp.model.Produtos
 
 class ListaProdutosAdapter(
     private val context: Context,
-    private val produtos: List<Produtos>
+    produtos: List<Produtos>
 ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    private val produtos = produtos.toMutableList()
+
+    class ViewHolder(private val binding: ProdutoItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        private val nome = binding.produtoItemNome
+        private val descricao = binding.produtoItemDescricao
+        private val preco = binding.produtoItemPreco
         fun vincula(produto: Produtos) {
-            val nome = itemView.findViewById<TextView>(R.id.nome)
             nome.text = produto.nome
-            val descricao = itemView.findViewById<TextView>(R.id.descricao)
             descricao.text = produto.descricao
-            val preco = itemView.findViewById<TextView>(R.id.preco)
             preco.text = produto.preco.toPlainString()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(context)
-        val view = layoutInflater.inflate(R.layout.produto_item, parent, false)
-        return ViewHolder(view)
+        val binding = ProdutoItemBinding.inflate(LayoutInflater.from(context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int = produtos.size
@@ -36,6 +36,12 @@ class ListaProdutosAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val produto = produtos[position]
         holder.vincula(produto)
+    }
+
+    fun atualiza(produtos: List<Produtos>) {
+        this.produtos.clear()
+        this.produtos.addAll(produtos)
+        notifyDataSetChanged()
     }
 
 }

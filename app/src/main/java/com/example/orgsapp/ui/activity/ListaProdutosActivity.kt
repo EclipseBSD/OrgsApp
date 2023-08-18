@@ -37,7 +37,7 @@ class ListaProdutosActivity : AppCompatActivity(R.layout.activity_lista_produtos
     }
 
     private fun configuraFab() {
-        val fab = binding.acitivityListaProdutosFab
+        val fab = binding.activityListaProdutosFabex
         fab.setOnClickListener {
             val intent = Intent(this, FormularioProdutoActivity::class.java)
             startActivity(intent)

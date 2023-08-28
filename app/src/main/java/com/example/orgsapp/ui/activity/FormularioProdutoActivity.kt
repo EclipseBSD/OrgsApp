@@ -1,11 +1,12 @@
 package com.example.orgsapp.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import com.example.orgsapp.R
+import androidx.appcompat.app.AppCompatActivity
+import coil.load
 import com.example.orgsapp.dao.ProdutoDao
 import com.example.orgsapp.databinding.ActivityFormularioProdutoBinding
+import com.example.orgsapp.databinding.FormularioImagemBinding
 import com.example.orgsapp.model.Produtos
 import java.math.BigDecimal
 
@@ -15,16 +16,25 @@ class FormularioProdutoActivity :
     private val binding by lazy {
         ActivityFormularioProdutoBinding.inflate(layoutInflater)
     }
+    private var url: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         configuraBotaoSalvar()
-        binding.activityFormularioProdutoImagem.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setView(R.layout.formulario_imagem)
-                .setPositiveButton("Confirmar") {_, _ ->
 
+        binding.activityFormularioProdutoImagem.setOnClickListener {
+            val formularioImagemBinding = FormularioImagemBinding.inflate(layoutInflater)
+            formularioImagemBinding.formularioImagemBotaoCarregar.setOnClickListener {
+                url = formularioImagemBinding.formularioImagemUrl.text.toString()
+                formularioImagemBinding.formularioImagemImagemview.load(url)
+            }
+
+            AlertDialog.Builder(this)
+                .setView(formularioImagemBinding.root)
+                .setPositiveButton("Confirmar") {_, _ ->
+                    val url = formularioImagemBinding.formularioImagemUrl.text.toString()
+                    binding.activityFormularioProdutoImagem.load(url)
                 }
                 .setNegativeButton("Cancelar") {_, _ ->
 
@@ -59,7 +69,8 @@ class FormularioProdutoActivity :
         return Produtos(
             nome = name,
             descricao = desc,
-            preco = value
+            preco = value,
+            imagem = url
         )
     }
 

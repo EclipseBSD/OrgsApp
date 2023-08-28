@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.orgsapp.databinding.ProdutoItemBinding
 import com.example.orgsapp.model.Produtos
 import java.math.BigDecimal
@@ -27,6 +28,7 @@ class ListaProdutosAdapter(
             descricao.text = produto.descricao
             val formataMoeda: String = formatarMoedaBrasil(produto.preco)
             preco.text = formataMoeda
+            binding.imageView.load(produto.imagem)
         }
 
         private fun formatarMoedaBrasil(valor: BigDecimal): String{
